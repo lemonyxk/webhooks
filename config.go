@@ -19,8 +19,8 @@ type Configure struct {
 }
 
 type Script struct {
-	Start string `json:"start"`
-	Dir   string `json:"dir"`
+	Start []string `json:"start"`
+	Dir   string   `json:"dir"`
 }
 type Repo struct {
 	FullName string `json:"full_name"`

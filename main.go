@@ -56,26 +56,28 @@ func main() {
 				}
 			}
 
-			console.Info("Start Command:", repo.Script.Start, "Dir:", repo.Script.Dir)
+			go func() {
+				for i := 0; i < len(repo.Script.Start); i++ {
+					println(repo.Script.Start[i])
 
-			var cmd = newCmd(repo.Script.Start)
+					var cmd = newCmd(repo.Script.Start[i])
 
-			cmd.Dir = repo.Script.Dir
-			cmd.Stderr = os.Stderr
-			cmd.Stdin = os.Stdin
-			cmd.Stdout = os.Stdout
+					cmd.Dir = repo.Script.Dir
+					cmd.Stderr = os.Stderr
+					cmd.Stdin = os.Stdin
+					cmd.Stdout = os.Stdout
 
-			err := cmd.Start()
-			if err != nil {
-				panic(err)
-			}
+					err := cmd.Start()
+					if err != nil {
+						panic(err)
+					}
 
-			_, err = cmd.Process.Wait()
-			if err != nil {
-				console.Error(err)
-			}
-
-			console.Info("End Command:", repo.Script.Start, "Dir:", repo.Script.Dir)
+					_, err = cmd.Process.Wait()
+					if err != nil {
+						console.Error(err)
+					}
+				}
+			}()
 
 			return stream.JsonFormat("SUCCESS", 200, nil)
 		})
