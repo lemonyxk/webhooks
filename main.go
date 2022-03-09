@@ -46,8 +46,6 @@ func main() {
 			var github = stream.Context.Value("github").(*GitHub)
 			var event = stream.Request.Header.Get("X-GitHub-Event")
 
-			console.Info("Repository:", github.Repository.FullName, "Event:", event)
-
 			var repo Repo
 			for i := 0; i < len(Config.Repositories); i++ {
 				if Config.Repositories[i].FullName == github.Repository.FullName {
@@ -57,6 +55,9 @@ func main() {
 			}
 
 			go func() {
+
+				console.Info("Repository:", github.Repository.FullName, "Event:", event, "Start")
+
 				for i := 0; i < len(repo.Script.Start); i++ {
 					println(repo.Script.Start[i])
 
@@ -77,6 +78,8 @@ func main() {
 						console.Error(err)
 					}
 				}
+
+				console.Info("Repository:", github.Repository.FullName, "Event:", event, "Done")
 			}()
 
 			return stream.JsonFormat("SUCCESS", 200, nil)
