@@ -70,14 +70,12 @@ func main() {
 				panic(err)
 			}
 
-			go func() {
-				_, err = cmd.Process.Wait()
-				if err != nil {
-					console.Error(err)
-				}
+			_, err = cmd.Process.Wait()
+			if err != nil {
+				console.Error(err)
+			}
 
-				console.Info("End Command:", repo.Script.Start, "Dir:", repo.Script.Dir)
-			}()
+			console.Info("End Command:", repo.Script.Start, "Dir:", repo.Script.Dir)
 
 			return stream.JsonFormat("SUCCESS", 200, nil)
 		})
