@@ -13,7 +13,7 @@ func killGroup(cmd *exec.Cmd) error {
 }
 
 func newCmd(command string) *exec.Cmd {
-	var cmd = exec.Command("bash", command)
+	var cmd = exec.Command("bash", "-c", command)
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
 	return cmd
 }
